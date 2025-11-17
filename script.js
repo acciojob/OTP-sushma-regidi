@@ -1,31 +1,31 @@
-//your JS code here. If required.
-// Select all OTP input fields
 const codes = document.querySelectorAll(".code");
 
-// Set focus on the first input at load
-codes[0].focus();
+// Automatically focus on first input on page load
+document.getElementById("code-1").focus();
 
 codes.forEach((input, idx) => {
-    input.addEventListener("input", () => {
-        // Allow only numbers
-        input.value = input.value.replace(/[^0-9]/g, "");
+    
+    // Forward typing behavior
+    input.addEventListener("input", (e) => {
+        const value = input.value.replace(/[^0-9]/, "");
 
-        if (input.value.length === 1 && idx < codes.length - 1) {
-            // Move to next input
+        input.value = value;
+
+        if (value && idx < codes.length - 1) {
             codes[idx + 1].focus();
         }
     });
 
+    // Backspace behavior
     input.addEventListener("keydown", (e) => {
         if (e.key === "Backspace") {
             if (input.value === "" && idx > 0) {
-                // Move back to previous input
-                codes[idx - 1].focus();
-                codes[idx - 1].value = "";
+                codes[idx - 1].value = "";  // delete previous input
+                codes[idx - 1].focus();      // shift focus backward
             } else {
-                // Clear current value before moving
-                input.value = "";
+                input.value = "";  // delete current
             }
         }
     });
 });
+
